@@ -3,7 +3,7 @@ import { writeCSV } from "../model/writeCSV.js";
 import { Data } from "../model/interfaceData.js";
 import fs from 'fs'
 
-const filePath = './db/estoque.csv'
+const filePath = 'db/estoque.csv'
 
 export class estoqueService{
     async criar(data: Data){
@@ -19,6 +19,19 @@ export class estoqueService{
         if(isNaN(data.quantidade) || data.quantidade < 0)
             throw new Error('Campo quantidade inválido!')
 
-        await writeCSV(filePath, [data])
+        let estoque = await readCSV(filePath)
+        await writeCSV(filePath, [...estoque, data])
+    }
+
+    async listar(){
+        return await readCSV(filePath)
+    }
+
+    async remover (nome:string){
+        let estoque = await readCSV(filePath)
+        if(!estoque.find((e) => e.nome == nome))
+            throw new Error('Produto não está no estoque')
+        let estoqueFiltrado = estoque.filter((produto) => produto.nome != nome)
+        await writeCSV(filePath, estoqueFiltrado)
     }
 }
