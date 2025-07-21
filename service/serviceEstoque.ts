@@ -73,7 +73,12 @@ export class estoqueService{
     }
 
     async listar(){
-        return await readCSV(filePath)
+        const estoque = await readCSV(filePath)
+        if(estoque?.length == 0)
+            console.log("Lista vazia")
+        estoque?.forEach(element => {
+            console.log(`Nome: ${element.nome} | Valor: ${element.valor} | Peso: ${element.peso} | Quantidade: ${element.quantidade}`)
+        });
     }
 
     async remover (nome:string){
@@ -82,5 +87,11 @@ export class estoqueService{
             throw new Error('Produto não está no estoque')
         let estoqueFiltrado = estoque.filter((produto) => produto.nome != nome)
         await writeCSV(filePath, estoqueFiltrado)
+    }
+
+    async mostrarValorTotal(){
+        let estoque = await readCSV(filePath)
+        const valor = estoque?.reduce((acc:number, e)=> acc + Number(e.valor), 0)
+        console.log("Valor total do estoque: ", valor)
     }
 }

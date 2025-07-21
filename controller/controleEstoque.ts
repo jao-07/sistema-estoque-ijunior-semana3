@@ -25,21 +25,30 @@ export default class estoqueController{
 
     listarProdutos = async () => {
         try {
-            const produtos = this.service.listar()
-            return produtos
+            return await this.service.listar()
         }
         catch(error){
             console.error("Erro ao listar os produtos", error)
         }
     }
 
-    removerProduto = async (nome: string) => {
+    removerProduto = async () => {
         try {
-            await this.service.remover(nome)
+            let produtoAlvo = this.prompt('Digite o nome do produto a ser removido: ')
+            await this.service.remover(produtoAlvo)
             console.log("Produto removido com sucesso!")
         }
         catch(error){
             console.error("Erro ao remover o produto!", error)
+        }
+    }
+
+    mostrarValorTotalDoEstoque = async () => {
+        try{
+            await this.service.mostrarValorTotal()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
         }
     }
 
@@ -59,17 +68,15 @@ export default class estoqueController{
             }
 
             if(escolha == 2){
-                let produtoAlvo = this.prompt('Digite o nome do produto a ser removido: ')
-                await this.removerProduto(produtoAlvo)
+                await this.removerProduto()
             }
 
             if(escolha == 3){
-                let lista = await this.listarProdutos()
-                if(lista?.length == 0)
-                    console.log("Lista vazia")
-                lista?.forEach(element => {
-                    console.log(`Nome: ${element.nome} | Valor: ${element.valor} | Peso: ${element.peso} | Quantidade: ${element.quantidade}`)
-                });
+                await this.listarProdutos()
+            }
+
+            if(escolha == 4){
+                await this.mostrarValorTotalDoEstoque()
             }
         }
     }
