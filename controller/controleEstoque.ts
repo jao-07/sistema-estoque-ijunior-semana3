@@ -52,6 +52,51 @@ export default class estoqueController{
         }
     }
 
+    mostrarPesoTotalDoEstoque = async () => {
+        try{
+            await this.service.mostrarPesoTotal()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
+        }
+    }
+
+    mostrarMediaDeValorDoEstoque = async () => {
+        try{
+            await this.service.mostrarMediaValor()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
+        }
+    }
+
+    mostrarMediaDePesoDoEstoque = async () => {
+        try{
+            await this.service.mostrarMediaPeso()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
+        }
+    }
+
+    mostrarQuantidadeItens = async () => {
+        try{
+            await this.service.mostrarQuantidadeTotalItens()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
+        }
+    }
+
+    mostrarQuantidadeProdutos = async () => {
+        try{
+            await this.service.mostrarQuantidadeTotalProdutos()
+        }
+        catch(error){
+            console.error("Erro ao mostrar o valor total!", error)
+        }
+    }
+
     main = async () => {
         while(this.rodando){
             console.log("\n\nBem vindo ao sistema de estoque \nUtilize os números para selecionar alguma das opções abaixo:")
@@ -59,24 +104,50 @@ export default class estoqueController{
 
             let escolha = parseInt(this.prompt('Selecione uma opção: '), 10)
 
-            if(escolha == 0){
-                this.rodando = false
-            }
+            switch(escolha){
+                case 0:
+                    this.rodando = false
+                    break
 
-            if(escolha == 1){
-                await this.adicionarProduto()
-            }
+                case 1:
+                    await this.adicionarProduto()
+                    break
 
-            if(escolha == 2){
-                await this.removerProduto()
-            }
+                case 2:
+                    await this.removerProduto()
+                    break
 
-            if(escolha == 3){
-                await this.listarProdutos()
-            }
+                case 3:
+                    await this.listarProdutos()
+                    break
 
-            if(escolha == 4){
-                await this.mostrarValorTotalDoEstoque()
+                case 4:
+                    await this.mostrarValorTotalDoEstoque()
+                    break
+
+                case 5:
+                    await this.mostrarPesoTotalDoEstoque()
+                    break
+
+                case 6:
+                    await this.mostrarMediaDeValorDoEstoque()
+                    break
+
+                case 7:
+                    await this.mostrarMediaDePesoDoEstoque()
+                    break
+
+                case 8:
+                    await this.mostrarQuantidadeItens()
+                    break
+
+                case 9:
+                    await this.mostrarQuantidadeProdutos()
+                    break
+
+                default:
+                    console.log("Opção inválida!")
+                    
             }
         }
     }
